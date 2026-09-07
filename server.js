@@ -13,38 +13,20 @@ import { seedAdmin } from "./controllers/adminController.js"
 const app = express()
 
 
-const corsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "https://anugraha-frontend-beta.vercel.app",
-  ],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-};
-
 
 
 connectDB()
 
 
-seedAdmin().catch((error) => {
-  console.error("Seed admin error:", error);
-});
 
 
 
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
-
-// app.use(
-//     cors({
-//         origin: process.env.CLIENT_URL,
-//         credentials: true
-//     })
-// )
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true
+    })
+)
 
 app.use(express.json())
 
@@ -62,8 +44,8 @@ const PORT = process.env.PORT || 3001
 
 app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`)
-    // console.log("EMAIL_USER:", process.env.EMAIL_USER)
-    // console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "LOADED" : "NOT LOADED")
+    console.log("EMAIL_USER:", process.env.EMAIL_USER)
+    console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "LOADED" : "NOT LOADED")
 
     await seedAdmin()
 })

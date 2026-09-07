@@ -13,11 +13,15 @@ import { seedAdmin } from "./controllers/adminController.js"
 const app = express()
 
 
-const allowedOrigins = [
+const corsOptions = {
+  origin: [
     "http://localhost:5173",
     "https://anugraha-frontend-beta.vercel.app"
-];
-
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
 
 
 
@@ -25,17 +29,9 @@ connectDB()
 
 
 
-app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://anugraha-frontend-beta.vercel.app"
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
 
-app.options("*", cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 
 // app.use(

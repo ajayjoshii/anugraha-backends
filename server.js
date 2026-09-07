@@ -50,65 +50,40 @@
 //     await seedAdmin()
 // })
 
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import connectDB from "./config/db.js";
 
-import "dotenv/config"
-import express from "express"
-import cors from "cors"
-import connectDB from "./config/db.js"
+import pastoralRoutes from "./routes/pastoralRoutes.js";
+import sermonRoutes from "./routes/sermonRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
-import pastoralRoutes from "./routes/pastoralRoutes.js"
-import sermonRoutes from "./routes/sermonRoutes.js"
-import adminRoutes from "./routes/adminRoutes.js"
-
-import { seedAdmin } from "./controllers/adminController.js"
-
-const app = express()
-
-const allowedOrigins = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "https://anugraha-frontend-beta.vercel.app"
-]
+const app = express();
 
 app.use(
     cors({
-        origin: function (origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true)
-            } else {
-                callback(new Error("Not allowed by CORS"))
-            }
-        },
-        credentials: true
+        origin: [
+            "http://localhost:5173",
+            "https://anugraha-frontend-beta.vercel.app",
+        ],
+        credentials: true,
     })
-)
+);
 
-app.use(express.json())
+app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.status(200).json({
+    res.json({
         success: true,
-        message: "Church website API running"
-    })
-})
+        message: "Backend is running",
+    });
+});
 
-app.use("/api/pastoral", pastoralRoutes)
-app.use("/api/sermons", sermonRoutes)
-app.use("/api/admin", adminRoutes)
+app.use("/api/pastoral", pastoralRoutes);
+app.use("/api/sermons", sermonRoutes);
+app.use("/api/admin", adminRoutes);
 
-connectDB()
-    .then(async () => {
-        console.log("MongoDB connected")
+connectDB();
 
-        try {
-            await seedAdmin()
-            console.log("Admin seed completed")
-        } catch (error) {
-            console.error("Admin seed error:", error.message)
-        }
-    })
-    .catch((error) => {
-        console.error("MongoDB connection error:", error.message)
-    })
-
-export default app
+export default app;

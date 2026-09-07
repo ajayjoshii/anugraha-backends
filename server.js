@@ -12,14 +12,38 @@ import { seedAdmin } from "./controllers/adminController.js"
 
 const app = express()
 
+
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://anugraha-frontend-beta.vercel.app"
+];
+
+
+
+
 connectDB()
+
+
 
 app.use(
     cors({
-        origin: process.env.CLIENT_URL,
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
         credentials: true
     })
-)
+);
+
+// app.use(
+//     cors({
+//         origin: process.env.CLIENT_URL,
+//         credentials: true
+//     })
+// )
 
 app.use(express.json())
 

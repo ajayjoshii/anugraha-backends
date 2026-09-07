@@ -16,7 +16,8 @@ const app = express()
 const corsOptions = {
   origin: [
     "http://localhost:5173",
-    "https://anugraha-frontend-beta.vercel.app"
+    "https://anugraha-frontend-beta.vercel.app",
+    "https://anugraha-backend-94rc.vercel.app/api/admin/login"
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],

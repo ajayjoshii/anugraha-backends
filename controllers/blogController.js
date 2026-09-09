@@ -1,4 +1,4 @@
-import PastoralTeam from "../models/PastoralTeam.js"
+import PastoralTeam from "../models/Blog.js"
 
 export const getPastoralTeams = async (req, res) => {
     try {

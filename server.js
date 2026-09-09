@@ -4,6 +4,7 @@ import cors from "cors"
 import connectDB from "./config/db.js"
 import pastoralRoutes from "./routes/pastoralRoutes.js"
 import sermonRoutes from "./routes/sermonRoutes.js"
+import blogRoutes from "./routes/blogRoutes.js"
 import path from "path";
 
 import adminRoutes from "./routes/adminRoutes.js"
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/pastoral", pastoralRoutes)
 app.use("/api/sermons", sermonRoutes)
+app.use("/api/blog", blogRoutes)
 app.use("/api/admin", adminRoutes)
 
 const PORT = process.env.PORT || 3001

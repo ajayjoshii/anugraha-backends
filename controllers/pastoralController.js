@@ -30,7 +30,8 @@ export const createPastoralTeam = async (req, res) => {
             });
         }
 
-        const img = `/uploads/${req.file.filename}`;
+        // const img = `/uploads/${req.file.filename}`;
+        const img = req.file.path;
 
 
         const team = await PastoralTeam.create({

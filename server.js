@@ -4,7 +4,11 @@ import cors from "cors"
 import connectDB from "./config/db.js"
 import pastoralRoutes from "./routes/pastoralRoutes.js"
 import sermonRoutes from "./routes/sermonRoutes.js"
+import path from "path";
+
 import adminRoutes from "./routes/adminRoutes.js"
+import { fileURLToPath } from "url";
+
 
 import { seedAdmin } from "./controllers/adminController.js"
 
@@ -16,6 +20,12 @@ app.use(
         credentials: true
     })
 )
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve uploaded images
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json())
 
 app.get("/", (req, res) => {
@@ -32,7 +42,7 @@ const PORT = process.env.PORT || 3001
 
 app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`)
-  
+
     await seedAdmin()
 })
 

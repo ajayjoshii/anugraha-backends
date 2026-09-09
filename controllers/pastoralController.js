@@ -16,9 +16,22 @@ export const getPastoralTeams = async (req, res) => {
     }
 }
 
+
+
+
 export const createPastoralTeam = async (req, res) => {
     try {
-        const { name, position, img, desc } = req.body
+        const { name, position, desc } = req.body
+
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "Image is required"
+            });
+        }
+
+        const img = `/uploads/${req.file.filename}`;
+
 
         const team = await PastoralTeam.create({
             name,

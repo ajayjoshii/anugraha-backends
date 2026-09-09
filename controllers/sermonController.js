@@ -22,9 +22,19 @@ export const createSermon = async (req, res) => {
             name,
             sub,
             pastor,
-            img,
+
             button
         } = req.body
+
+
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "Image is required"
+            });
+        }
+
+        const img = `/uploads/${req.file.filename}`;
 
         const sermon = await Sermon.create({
             name,
